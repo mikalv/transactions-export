@@ -71,10 +71,12 @@ namespace xmreg
 
         // get tx payment id
         crypto::hash payment_id;
+        crypto::hash8 payment_id8;
 
-        if (!xmreg::get_payment_id(tx, payment_id))
+        if (!xmreg::get_payment_id(tx, payment_id, payment_id8))
         {
             payment_id = cryptonote::null_hash;
+            payment_id8 = cryptonote::null_hash8;
         }
 
         // get the total number of outputs in a transaction.
@@ -206,10 +208,12 @@ namespace xmreg
 
     bool
     get_payment_id(const transaction& tx,
-                   crypto::hash& payment_id)
+                   crypto::hash& payment_id,
+                   crypto::hash8& payment_id8)
     {
 
         payment_id = null_hash;
+        payment_id8 = null_hash8;
 
         //crypto::secret_key secret_key = get_tx_pub_key_from_extra(tx);
 
@@ -224,12 +228,17 @@ namespace xmreg
 
         if (find_tx_extra_field_by_type(tx_extra_fields, extra_nonce))
         {
-            if (!get_payment_id_from_tx_extra_nonce(extra_nonce.nonce, payment_id))
+
+            if(get_encrypted_payment_id_from_tx_extra_nonce(extra_nonce.nonce, payment_id8))
             {
-                return false;
+                return true;
+            }
+            else if (get_payment_id_from_tx_extra_nonce(extra_nonce.nonce, payment_id))
+            {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
 

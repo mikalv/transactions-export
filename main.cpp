@@ -311,6 +311,22 @@ int main(int ac, const char* av[]) {
             // get tx public key from extras field
             crypto::public_key pub_tx_key = cryptonote::get_tx_pub_key_from_extra(tx);
 
+//            crypto::hash payment_id;
+//            crypto::hash8 payment_id8;
+//            xmreg::get_payment_id(tx, payment_id, payment_id8);
+//            if (payment_id != cryptonote::null_hash || payment_id8 != cryptonote::null_hash8)
+//            {
+//                cout << "payment_id: " << payment_id << endl;
+//                cout << "payment_id8: " << payment_id8 << endl;
+//            }
+//
+//
+//            if (payment_id8 != cryptonote::null_hash8)
+//            {
+//                cout << "payment_id: " << payment_id << endl;
+//                cout << "payment_id8: " << payment_id8 << endl;
+//            }
+
 
             if (!found_outputs.empty())
             {
